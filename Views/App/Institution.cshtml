@@ -1,0 +1,59 @@
+﻿@model InstitutionViewModel
+@{
+    ViewData["Title"] = "Institution";
+}
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<h1 class="text-center">Institucije</h1>
+
+<div class="col-md-8 offset-md-2">
+    <div class="card card-body bg-light">
+
+
+        <form id="searchForm" method="post">
+            <div>
+                <label asp-for="SearchName" id="searchLabel">Ime institucije: </label>
+                <input asp-for="SearchName" id="institutionName" value=@Model.SearchName />
+                <button type="submit" name="submit" value="searchForm" id="btnGetInstitution">Ucitaj instituciju</button>
+            </div>
+            <div class="text-error">@ViewBag.CantFind</div>
+        </form>
+
+        <form id="addInstitution" method="post">
+            <div asp-validation-summary="ModelOnly"> </div>      
+            <div class="form-group">
+                <input asp-for="TimeStamp" hidden="hidden" class="form-control" value=@Model.TimeStamp />
+                <label asp-for="Id">Ime institucije</label>
+                <input asp-for="Id" class="form-control" value=@Model.Id />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstitutionAddress">Adresa institucije</label>
+                <input asp-for="InstitutionAddress" class="form-control" value=@Model.InstitutionAddress />
+                <span asp-validation-for="InstitutionAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstitutionHolder">Rukovodilac</label>
+                <input asp-for="InstitutionHolder" , type="text" class="form-control" value=@Model.InstitutionHolder />
+                <span asp-validation-for="InstitutionHolder" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="submit" value="Save">Sacuvaj instituciju</button>
+                @if (@ViewBag.Enable == "Enabled")
+                {
+                    <button type="submit" name="submit" value="Update" id="updateInstitution">Izmeni instituciju</button>
+                    <button type="submit" name="submit" value="Delete" id="deleteInstitution">Obrisi instituciju</button>
+                }
+                <div class="text">@ViewBag.UserMessage</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

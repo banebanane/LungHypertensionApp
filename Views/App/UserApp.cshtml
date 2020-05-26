@@ -1,0 +1,93 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Korisnici";
+}
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<h1 class="text-center">Korisnici</h1>
+
+<div class="col-md-8 offset-md-2">
+    <div class="card card-body bg-light">
+        <form id="searchForm" method="post">
+            <div>
+                <label asp-for="SearchEmail" id="searchLabelUser">Username korisnika: </label>
+                <input asp-for="SearchEmail" id="nameOfUser" value=@Model.SearchEmail />
+                <button type="submit" name="submit" value="searchForm" id="btnGetUser">Ucitaj korisnika</button>
+            </div>
+            <div class="text-error">@ViewBag.CantFind</div>
+        </form>
+
+        <form id="addUser" method="post">
+            <div asp-validation-summary="ModelOnly"> </div>
+            <div class="form-group">
+                <label asp-for="InstitutionName">Ime institucije</label>
+                <select asp-for="InstitutionName" id="allInstitutions" class="form-control">
+                    @foreach (var inst in @Model.AllInstitutions)
+                    {
+                        <option value=@inst>@inst</option>
+                    }
+                </select>
+                <span asp-validation-for="InstitutionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName">Ime: </label>
+                <input asp-for="FirstName" type="text" class="form-control" value=@Model.FirstName />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName">Prezime</label>
+                <input asp-for="LastName" type="text" class="form-control" value=@Model.LastName />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username">Username</label>
+                <input asp-for="Username" type="text" class="form-control" value=@Model.Username />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" class="form-control" value=@Model.Username />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            @if (@ViewBag.Enable != "Enabled")
+            {
+                <div class="form-group">
+                    <label asp-for="Password">Pasvord</label>
+                    <input asp-for="Password" type="password" class="form-control" value=@Model.Password />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="Titule">Titula</label>
+                <input asp-for="Titule" type="text" class="form-control" value=@Model.Titule />
+                <span asp-validation-for="Titule" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Role">Uloga</label>
+                <select asp-for="Role" id="allInstitutions" class="form-control">
+                    <option value="Admin">Admin</option>
+                    <option value="Manager">Manager</option>
+                    <option value="User">User</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="submit" value="Save">Sacuvaj korisnika</button>
+                @if (@ViewBag.Enable == "Enabled")
+                {
+                    <button type="submit" name="submit" value="Update" id="updateInstitution">Izmeni korisnika</button>
+                    <button type="submit" name="submit" value="Delete" id="deleteInstitution">Obrisi korisnika</button>
+                }
+                <div class="text">@ViewBag.UserMessage</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

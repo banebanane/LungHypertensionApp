@@ -1,0 +1,12 @@
+{ // voditi racuna prilikom deploy-a da se postave kredencijali kako treba: Integrated Security=true
+  "ConnectionStrings": {
+    "LungHypertensionConnectionString": "server=(localdb)\\ProjectsV13;Database=LungHypertensionDb;Integrated Security=true;MultipleActiveResultSets=true;",
+    "LungHypertensionConnectionStringProd": "Data Source=tvshowsappdbserver123.database.windows.net;Initial Catalog=TvShowsAppDb;User ID=serveradmin;Password=P@ssw0rd;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning"
+    }
+  }
+}
