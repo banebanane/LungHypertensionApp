@@ -4,14 +4,16 @@ using LungHypertensionApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LungHypertensionApp.Migrations
 {
     [DbContext(typeof(LungHypertensionContext))]
-    partial class LungHypertensionContextModelSnapshot : ModelSnapshot
+    [Migration("20200527082113_UpdatePatientIdId")]
+    partial class UpdatePatientIdId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +40,28 @@ namespace LungHypertensionApp.Migrations
                     b.ToTable("Institutions");
                 });
 
-            modelBuilder.Entity("LungHypertensionApp.Data.Entities.Patient", b =>
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientBaseData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("TimeStamp")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatientBaseData");
+                });
+
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientContactData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,50 +71,18 @@ namespace LungHypertensionApp.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EKG")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Hct")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Hgb")
-                        .HasColumnType("float");
-
-                    b.Property<string>("InstitutionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("NtProBnp")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Risk")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Telephone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("TimeStamp")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("WHO")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitutionId");
-
-                    b.ToTable("Patients");
+                    b.ToTable("PatientContactData");
                 });
 
             modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientControll", b =>
@@ -115,6 +106,72 @@ namespace LungHypertensionApp.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientControlls");
+                });
+
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientDiagnostic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EKG")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Risk")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatientDiagnostic");
+                });
+
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientFunctional", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("NtProBnp")
+                        .HasColumnType("float");
+
+                    b.Property<string>("WHO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatientFunctional");
+                });
+
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientLab", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Hct")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Hgb")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatientLab");
+                });
+
+            modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientTheraphy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PatientTheraphy");
                 });
 
             modelBuilder.Entity("LungHypertensionApp.Data.Entities.StoreUser", b =>
@@ -327,16 +384,9 @@ namespace LungHypertensionApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LungHypertensionApp.Data.Entities.Patient", b =>
-                {
-                    b.HasOne("LungHypertensionApp.Data.Entities.Institution", "Institution")
-                        .WithMany("Patients")
-                        .HasForeignKey("InstitutionId");
-                });
-
             modelBuilder.Entity("LungHypertensionApp.Data.Entities.PatientControll", b =>
                 {
-                    b.HasOne("LungHypertensionApp.Data.Entities.Patient", "Patient")
+                    b.HasOne("LungHypertensionApp.Data.Entities.PatientBaseData", "Patient")
                         .WithMany("Controls")
                         .HasForeignKey("PatientId");
                 });

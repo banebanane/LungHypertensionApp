@@ -72,7 +72,7 @@ namespace LungHypertensionApp.Data
             }
             catch (Exception)
             {
-                logger.LogError("Could not save institution from database.");
+                logger.LogError("Could not save institution to database.");
             }            
         }
 
@@ -150,6 +150,108 @@ namespace LungHypertensionApp.Data
             catch (Exception)
             {
                 logger.LogError("Could not delete user from database.");
+            }
+        }
+
+        public Patient GetPatientById(int id)
+        {
+            try
+            {
+                return context.Patients.Include(ins => ins.Institution).Where(i => i.Id == id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not get patient with {id} from database.");
+            }
+
+            return null;
+        }
+
+        public IEnumerable<PatientControll> GetPatientControlsByPatientId(int id)
+        {
+            try
+            {
+                return context.PatientControlls.Where(i => i.Patient.Id == id);
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not get patient controlls for patient with {id} from database.");
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Patient> GetAllPatientsByInstitution(string institutionName)
+        {
+            try
+            {
+                return context.Patients.Where(i => i.Institution.Id == institutionName);
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not get patients from {institutionName} from database.");
+            }
+
+            return null;
+        }
+
+        public void UpdatePatient(Patient patient)
+        {
+            try
+            {
+                context.Patients.Update(patient);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Could not update patient from database.");
+            }
+        }
+
+        public bool UpdatePatientControlByPatientId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPatientMaxId()
+        {
+            try
+            {
+                if (context.Patients.Any())
+                {
+                    return context.Patients.Max(i => i.Id);
+                }
+
+                return 0;         
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not get max patient's id from database.");
+            }
+
+            return -1;
+        }
+
+        public void SavePatient(Patient patient)
+        {
+            try
+            {
+                context.Patients.Add(patient);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Could not save Patient to database.");
+            }
+        }
+
+        public void DeletePatient(Patient patient)
+        {
+            try
+            {
+                context.Patients.Remove(patient);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Could not delete patient from database.");
             }
         }
     }

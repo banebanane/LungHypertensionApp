@@ -15,6 +15,8 @@ namespace LungHypertensionApp.Data
 
         }
         public DbSet<Institution> Institutions { get; set; }
-    //    public DbSet<Order> Orders { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientControll> PatientControlls { get; set; }
+
     }
 }

@@ -12,7 +12,7 @@ namespace LungHypertensionApp.Data.Entities
         [Key]
         public int Id { get; set; }
         [Key]
-        public PatientBaseData PatientId { get; set; }
+        public Patient Patient { get; set; }
         [Required]
         public DateTime ControllDate { get; set; }  
         public string WeekHearth { get; set; } 

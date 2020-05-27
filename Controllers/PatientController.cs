@@ -49,112 +49,155 @@ namespace LungHypertensionApp.Controllers
                 logger.LogInformation($"Usao u post patient thread {Thread.CurrentThread.ManagedThreadId}");
                 try
                 {
-                    PatientBaseData patientBaseData = null;
+                    Patient patient = null;
+
                     switch (submit)
                     {
                         case "Save":
-                            //patientBaseData = repository.GetInstitutionById(model.Id);
-                            //if (institution != null) // institucija vec postoji
-                            //{
-                            //    ViewBag.UserMessage = $"Trazena institucija sa imenom: {institution.Id} vec postoji u bazi!";
-                            //}
-                            //else
-                            //{
-                            //    institution = new Institution()
-                            //    {
-                            //        Id = model.Id,
-                            //        InstitutionAddress = model.InstitutionAddress,
-                            //        InstitutionHolder = model.InstitutionHolder,
-                            //        TimeStamp = DateTime.UtcNow.Ticks
-                            //    };
-                            //    model.SearchName = "";
-                            //    repository.SaveInstitution(institution);
-                            //    bool result = repository.SaveAll();
-                            //    if (result)
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} uspesno dodata u bazu.";
-                            //        model = new InstitutionViewModel();
-                            //    }
-                            //    else
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} nije uspesno dodata u bazu.";
-                            //    }
-                            //}
+                            model.Id = repository.GetPatientMaxId() + 1;
+                            if (model.Id == 0) // ne bi trebalo nikada da se desio, osim kada je baza nedostupna
+                            {
+                                ViewBag.UserMessage = $"Problem sa pristupom bazi. Molim vas kontaktirajte korisnicku podrsku.";
+                                break;
+                            }
+                            patient = new Patient()
+                            {
+                       //         Id = model.Id, automatski popunjava, jer smo rekli da je ovo kljuc. Inace puca SQL exception
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                Institution = repository.GetInstitutionById(model.InstitutionName),
+                                TimeStamp = DateTime.UtcNow.Ticks,
+                                Address = model.Address,
+                                Telephone = model.Telephone,
+                                Mobile = model.Mobile,
+                                Email = model.Email,
+                                EKG = model.EKG,
+                                Risk = model.Risk,
+                                WHO = model.WHO,
+                                NtProBnp = model.NtProBNP,
+                                Hgb = model.Hgb,
+                                Hct = model.Hct
+                            };
+
+                            model.SearchIdPatient = 0;
+                            repository.SavePatient(patient);
+                            bool result = repository.SaveAll();
+                            if (result)
+                            {
+                                ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} uspesno dodat u bazu.";
+                                model = new PatientViewModel();
+                            }
+                            else
+                            {
+                                ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} nije uspesno dodat u bazu.";
+                            }
+                            
+                            PopulateEnums(model);
+
                             break;
 
                         case "Update": // Prvo moramo proveriti da li je ono sto je inicijalno ucitano preko serch-a
-                            //institution = repository.GetInstitutionById(model.Id);
-                            //if (institution != null && institution.TimeStamp == model.TimeStamp)
-                            //{
-                            //    if (institution.Id != model.Id)
-                            //    {
-                            //        ViewBag.UserMessage = $"Ne moze se promeniti ime {institution.Id}, posto se pokusava promenit ime na {model.Id} ";
-                            //        break;
-                            //    }
-                            //    institution.InstitutionAddress = model.InstitutionAddress;
-                            //    institution.InstitutionHolder = model.InstitutionHolder;
-                            //    institution.TimeStamp = DateTime.UtcNow.Ticks;
-                            //    repository.UpdateInstitution(institution);
-                            //    bool result = repository.SaveAll();
-                            //    if (result)
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} uspesno izmenjena u bazi.";
-                            //    }
-                            //    else
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} nije uspesno izmenjena u bazi.";
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    ViewBag.UserMessage = $"Institucija {model.Id} koja se zeli promeniti je u medjuvremeu promenjena ili obrisana od strane drugog korisnika. Molim vas ucitajte ponovo instituciju.";
-                            //}
+                            patient = repository.GetPatientById(model.Id);
+                            if (patient != null && patient.TimeStamp == model.TimeStamp)
+                            {
+                                if (patient.Id != model.Id)
+                                {
+                                    ViewBag.UserMessage = $"Ne moze se promeniti ID: {patient.Id} na {model.Id}, jer je to jedinstveni identifikator pacijenta.";
+                                    PopulateEnums(model);
+                                    break;
+                                }
+                                patient.Id = model.Id;
+                                patient.FirstName = model.FirstName;
+                                patient.LastName = model.LastName;
+                                patient.Institution = repository.GetInstitutionById(model.InstitutionName);
+                                patient.Address = model.Address;
+                                patient.Telephone = model.Telephone;
+                                patient.Mobile = model.Mobile;
+                                patient.Email = model.Email;
+                                patient.EKG = model.EKG;
+                                patient.Risk = model.Risk;
+                                patient.WHO = model.WHO;
+                                patient.NtProBnp = model.NtProBNP;
+                                patient.Hgb = model.Hgb;
+                                patient.Hct = model.Hct;
+                                patient.TimeStamp = DateTime.UtcNow.Ticks;
+                                repository.UpdatePatient(patient);
+                                bool resultSave = repository.SaveAll();
+                                if (resultSave)
+                                {
+                                    ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} uspesno izmenjen u bazi.";
+                                }
+                                else
+                                {
+                                    ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} nije uspesno izmenjen u bazi.";
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.UserMessage = $"Pacijent sa ID-jem: {model.Id} koji se zeli promeniti je u medjuvremeu promenjen ili obrisan od strane drugog korisnika. Molim vas ucitajte ponovo pacijenta.";
+                            }
+                            PopulateEnums(model);
                             break;
 
                         case "Delete":
-                            //institution = repository.GetInstitutionById(model.Id);
-                            //if (institution != null && institution.TimeStamp == model.TimeStamp)
-                            //{
-                            //    if (institution.Id != model.Id)
-                            //    {
-                            //        ViewBag.UserMessage = $"Ne moze se promeniti ime {institution.Id}, posto se pokusava promenit ime na {model.Id} ";
-                            //        break;
-                            //    }
-                            //    repository.DeleteInstitution(institution);
-                            //    bool result = repository.SaveAll();
-                            //    if (result)
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} uspesno obrisana iz bazi.";
-                            //        model = new InstitutionViewModel();
-                            //    }
-                            //    else
-                            //    {
-                            //        ViewBag.UserMessage = $"Institucija {institution.Id} nije uspesno obrisana iz bazi.";
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    ViewBag.UserMessage = $"Institucija {model.Id} je u medjuvremenu obrisana od strane drugog korisnika.";
-                            //}
+                            patient = repository.GetPatientById(model.Id);
+                            if (patient != null && patient.TimeStamp == model.TimeStamp)
+                            {
+                                if (patient.Id != model.Id)
+                                {
+                                    ViewBag.UserMessage = $"Ne moze se promeniti ID: {patient.Id} na {model.Id}, jer je to jedinstveni identifikator pacijenta.";
+                                    PopulateEnums(model);
+                                    break;
+                                }
+                                repository.DeletePatient(patient);
+                                bool resultDelete = repository.SaveAll();
+                                if (resultDelete)
+                                {
+                                    ViewBag.UserMessage = $"Pacijenta sa ID-jem: {patient.Id} uspesno obrisan iz bazi.";
+                                    model = new PatientViewModel();
+                                }
+                                else
+                                {
+                                    ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} nije uspesno obrisan iz bazi.";
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.UserMessage = $"Pacijent sa ID-jem: {model.Id} je u medjuvremenu obrisan od strane drugog korisnika.";
+                            }
+                            PopulateEnums(model);
                             break;
 
                         case "searchForm":
-                            //institution = repository.GetInstitutionById(model.SearchName);
-                            //if (institution != null) // pronadjena
-                            //{
-                            //    model.SearchName = "";
-                            //    model.Id = institution.Id;
-                            //    model.InstitutionAddress = institution.InstitutionAddress;
-                            //    model.InstitutionHolder = institution.InstitutionHolder;
-                            //    model.TimeStamp = institution.TimeStamp;
-                            //    ViewBag.Enable = "Enabled"; // enabled samo ako je pronadjen iz baze
-                            //}
-                            //else
-                            //{
-                            //    ViewBag.CantFind = "Trazena institucija ne postoji u bazi";
-                            //}
+                            patient = repository.GetPatientById(model.SearchIdPatient);
+                            if (patient != null) // pronadjen
+                            {
+                                model.Id = patient.Id;
+                                model.TimeStamp = patient.TimeStamp;
+                                model.FirstName = patient.FirstName;
+                                model.LastName = patient.LastName;
+                                model.InstitutionName = patient.Institution.Id;
+                                model.Address = patient.Address;
+                                model.Telephone = patient.Telephone;
+                                model.Mobile = patient.Mobile;
+                                model.Email = patient.Email;
+                                model.EKG = patient.EKG;
+                                model.Risk = patient.Risk;
+                                model.WHO = patient.WHO;
+                                model.NtProBNP = patient.NtProBnp;
+                                model.Hgb = patient.Hgb;
+                                model.Hct = patient.Hct;
+                                ViewBag.Enable = "Enabled"; // enabled samo ako je pronadjen iz baze
+                            }
+                            else
+                            {
+                                ViewBag.CantFind = "Trazeni pacijent ne postoji u bazi";
+                            }
+                            PopulateEnums(model);
 
                             break;
+                        case "Controls":
+                            return View("PatientControll", new PatientControllViewModel() { PatientId = model.Id});
                     }
 
                     ModelState.Clear(); // ljubim te u dupe!!! Potrebno da se trenutno onemoguci ugradjena validacija nad poljima koja ima bug
@@ -162,6 +205,7 @@ namespace LungHypertensionApp.Controllers
                 catch (Exception ex)
                 {
                     ModelState.Clear();
+                    PopulateEnums(model);
                     //     ViewBag.CantFind(ex.Message); bude null
                 }
                 logger.LogInformation($"Zavrsava u post institution thread {Thread.CurrentThread.ManagedThreadId}");
@@ -174,6 +218,7 @@ namespace LungHypertensionApp.Controllers
             model.EnumWHO = new List<string>(4) { "I", "II", "III", "IV" };
             model.EnumEKG = new List<string>(4) { "sinusni ritam", "BDG", "atrijalna fibrilacija/flater", "pacemaker" };
             model.EnumRisk = new List<string>(3) { "nizak", "umeren", "visok" };
+            model.AllInstitutions = repository.GetAllInstitutions().Select(i => i.Id);
 
             return model;
         }

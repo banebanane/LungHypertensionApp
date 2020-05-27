@@ -12,5 +12,6 @@ namespace LungHypertensionApp.Data.Entities
         public string InstitutionAddress { get; set; }
         public string InstitutionHolder { get; set; }
         public long TimeStamp { get; set; }
+        public ICollection<Patient> Patients { get; set; }
     }
 }
