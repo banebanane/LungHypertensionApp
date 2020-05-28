@@ -41,6 +41,141 @@ namespace LungHypertensionApp.Controllers
         }
 
         [Authorize]
+        [HttpGet("/Patient/Params")]
+        public IActionResult Params()
+        {
+            Request.Query.ContainsKey("parameter1");
+          //   Request.QueryString.HasValue["parameter1"];
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult UpdateControll(int idPatient, int idControll)
+        {
+            // provera timestamp-a ako neki user drugi promeni 
+            PatientControllViewModel model = new PatientControllViewModel()
+            {
+                PatientId = idPatient,
+                Id = idControll
+            };
+            //   Request.QueryString.HasValue["parameter1"];
+            return RedirectToAction("PatientControll", model);
+        }
+        
+
+        [Authorize]
+        [HttpGet("patientControll")]
+        public IActionResult PatientControll(PatientControllViewModel model)
+        {
+            if (model.PatientId > 0)
+            {
+                model.PatientControlls = repository.GetAllControllsForPatient(model.PatientId);
+            }
+            if (model.PatientControlls == null)
+            {
+                model.PatientControlls = new List<PatientControll>();
+            }
+            return View(model);
+        }
+
+
+        [Authorize]
+        [HttpPost("patientControll")]
+        public IActionResult PatientControll(PatientControllViewModel model, string submit)
+        {
+            lock (lockObject)
+            {
+                logger.LogInformation($"Usao u post patient controll thread {Thread.CurrentThread.ManagedThreadId}");
+                try
+                {
+                    PatientControll patientControll = null;
+
+                    switch (submit)
+                    {
+                        case "Save":
+                            patientControll = new PatientControll()
+                            {
+                                //         Id = model.Id, automatski popunjava, jer smo rekli da je ovo kljuc. Inace puca SQL exception
+                                
+                                ControllDate = model.ControllDate,
+                                Patient = repository.GetPatientById(model.PatientId),
+                                TimeStamp = DateTime.UtcNow.Ticks,
+                                WeekHearth = model.WeekHearth
+                            };
+
+                            repository.SavePatientControll(patientControll);
+                            bool result = repository.SaveAll();
+                            if (result)
+                            {
+                                ViewBag.UserMessage = $"Kontrola sa ID-jem: {patientControll.Id} je uspesno dodata u bazu.";
+                                model = new PatientControllViewModel()
+                                {
+                                    PatientId = model.PatientId
+                                };
+                            }
+                            else
+                            {
+                                ViewBag.UserMessage = $"Kontrola sa ID-jem: {patientControll.Id} nije uspesno dodata u bazu.";
+                            }
+
+                            break;
+
+                        case "Update": // Prvo moramo proveriti da li je ono sto je inicijalno ucitano preko serch-a
+                            //patient = repository.GetPatientById(model.Id);
+                            //if (patient != null && patient.TimeStamp == model.TimeStamp)
+                            //{
+                            //    if (patient.Id != model.Id)
+                            //    {
+                            //        ViewBag.UserMessage = $"Ne moze se promeniti ID: {patient.Id} na {model.Id}, jer je to jedinstveni identifikator pacijenta.";
+                            //        PopulateEnums(model);
+                            //        break;
+                            //    }
+                            //    patient.Id = model.Id;
+                            //    patient.FirstName = model.FirstName;
+                            //    patient.LastName = model.LastName;
+                            //    patient.Institution = repository.GetInstitutionById(model.InstitutionName);
+                            //    patient.Address = model.Address;
+                            //    patient.Telephone = model.Telephone;
+                            //    patient.Mobile = model.Mobile;
+                            //    patient.Email = model.Email;
+                            //    patient.EKG = model.EKG;
+                            //    patient.Risk = model.Risk;
+                            //    patient.WHO = model.WHO;
+                            //    patient.NtProBnp = model.NtProBNP;
+                            //    patient.Hgb = model.Hgb;
+                            //    patient.Hct = model.Hct;
+                            //    patient.TimeStamp = DateTime.UtcNow.Ticks;
+                            //    repository.UpdatePatient(patient);
+                            //    bool resultSave = repository.SaveAll();
+                            //    if (resultSave)
+                            //    {
+                            //        ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} uspesno izmenjen u bazi.";
+                            //    }
+                            //    else
+                            //    {
+                            //        ViewBag.UserMessage = $"Pacijent sa ID-jem: {patient.Id} nije uspesno izmenjen u bazi.";
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    ViewBag.UserMessage = $"Pacijent sa ID-jem: {model.Id} koji se zeli promeniti je u medjuvremeu promenjen ili obrisan od strane drugog korisnika. Molim vas ucitajte ponovo pacijenta.";
+                            //}
+                            //PopulateEnums(model);
+                            break;
+                    }
+
+                    ModelState.Clear(); // ljubim te u dupe!!! Potrebno da se trenutno onemoguci ugradjena validacija nad poljima koja ima bug
+                }
+                catch (Exception ex)
+                {
+                    ModelState.Clear();
+                }
+                logger.LogInformation($"Zavrsava u post patient controll thread {Thread.CurrentThread.ManagedThreadId}");
+                return View(model);
+            }
+        }
+
+        [Authorize]
         [HttpPost("patient")]
         public IActionResult Patient(PatientViewModel model, string submit)
         {
@@ -197,7 +332,7 @@ namespace LungHypertensionApp.Controllers
 
                             break;
                         case "Controls":
-                            return View("PatientControll", new PatientControllViewModel() { PatientId = model.Id});
+                            return RedirectToAction("PatientControll", new PatientControllViewModel() { PatientId = model.Id});
                     }
 
                     ModelState.Clear(); // ljubim te u dupe!!! Potrebno da se trenutno onemoguci ugradjena validacija nad poljima koja ima bug

@@ -16,5 +16,9 @@ namespace LungHypertensionApp.ViewModels
         [Required]
         public DateTime ControllDate { get; set; }
         public string WeekHearth { get; set; }
+        public long TimeStamp { get; set; }
+        public string ParamName { get; set; }
+        public Dictionary<DateTime, string> DateTimeToValue { get; set; }
+        public IEnumerable<PatientControll> PatientControlls { get; set; }
     }
 }

@@ -14,7 +14,8 @@ namespace LungHypertensionApp.Data.Entities
         [Key]
         public Patient Patient { get; set; }
         [Required]
-        public DateTime ControllDate { get; set; }  
+        public DateTime ControllDate { get; set; }
+        public long TimeStamp { get; set; }
         public string WeekHearth { get; set; } 
     }
 }

@@ -37,5 +37,12 @@ namespace LungHypertensionApp.Data
 
 
         #endregion
+
+        #region
+
+        void SavePatientControll(PatientControll patientControll);
+        IEnumerable<PatientControll> GetAllControllsForPatient(int patientId);
+
+        #endregion
     }
 }

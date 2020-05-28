@@ -5,93 +5,62 @@
 }
 
     <h1 class="text-center">Kontrole za pacijenta: @Model.PatientId</h1>
-<div>
-    <table style="width:100%">
+    <div id="scrollDiv">
+        <table id="t01">
+            <tr>
+                <th>Izmena kontrole</th>
+                <th>Brisanje kontrole</th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?IdControll','name','width=600,height=400')">Id kontrole</a></th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?DateControll','name','width=600,height=400')">Datum kontrole</a></th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?WeekHearth','name','width=600,height=400')">WeekHearth</a></th>
+            </tr>
+            @foreach (var controll in Model.PatientControlls)
+            {
         <tr>
-            <th>ID pacijenta</th>
-            <th>ID kontrole</th>
-            <th>Datum kontrole</th>
-            <th>WeekHearth</th>
-            <th>ID pacijenta</th>
-            <th>ID kontrole</th>
-            <th>Datum kontrole</th>
-            <th>WeekHearth</th>
-            <th>ID pacijenta</th>
-            <th>ID kontrole</th>
-            <th>Datum kontrole</th>
-            <th>WeekHearth</th>
+            <td>
+                <button type="button" name="update" value="Update" id="updateControll" onclick="location.href='@Url.Action("UpdateControll", "Patient", new { idPatient = @Model.PatientId, idControll = controll.Id })' ">Izmeni kontrolu: @controll.Id</button>
+            </td>
+            <td>
+                <button type="button" name="delete" value="Delete" id="deleteControll">Obrisi kontrolu: @controll.Id</button>
+            </td>
+            <td>@controll.Id</td>
+            <td>@controll.ControllDate</td>
+            <td>@controll.WeekHearth</td>
         </tr>
-        <tr>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Ezve</td>
-            <td>Jackson</td>
-            <td>9w</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-            <td>50</td>
-        </tr>
-    </table>
+            }
+        </table>
+    </div>
+<br>
+<div class="col-md-12 offset-md-0">
+    <div class="card card-body bg-light">
+        <h4 class="text-center">Dodavanje/izmena kontrole za pacijenta: @Model.PatientId</h4>
+        <form id="addControll" method="post">
+            <div asp-validation-summary="ModelOnly"> </div>
+            <div class="form-group">
+                <input asp-for="TimeStamp" hidden="hidden" class="form-control" value=@Model.TimeStamp />
+                <label asp-for="Id">ID kontrole</label>
+                <input asp-for="Id" class="form-control" readonly="readonly" value=@Model.Id />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControllDate">Datum kontrole</label>
+                <input asp-for="ControllDate" type="datetime" class="form-control" value=@Model.ControllDate />
+                <span asp-validation-for="ControllDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WeekHearth">WeekHearth</label>
+                <input asp-for="WeekHearth" , type="text" class="form-control" value=@Model.WeekHearth />
+                <span asp-validation-for="WeekHearth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="submit" value="Save">Sacuvaj novu kontrolu</button>
+                @if (@ViewBag.Enable == "Enabled")
+                {
+                    <button type="submit" name="submit" value="Update" id="updateControll">Izmeni kontrolu</button>
+                }
+                <div class="text">@ViewBag.UserMessage</div>
+            </div>
+        </form>
+    </div>
 </div>

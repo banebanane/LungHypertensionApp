@@ -254,5 +254,30 @@ namespace LungHypertensionApp.Data
                 logger.LogError("Could not delete patient from database.");
             }
         }
+
+        public void SavePatientControll(PatientControll patientControll)
+        {
+            try
+            {
+                context.PatientControlls.Add(patientControll);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Could not save Patient controll to database.");
+            }
+        }
+
+        public IEnumerable<PatientControll> GetAllControllsForPatient(int patientId)
+        {
+            try
+            {
+                return context.PatientControlls.Where(cont => cont.Patient.Id == patientId);
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not obtain controlls by patient with ID: {patientId} from database.");
+            }
+            return new List<PatientControll>();
+        }
     }
 }

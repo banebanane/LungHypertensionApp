@@ -148,3 +148,44 @@ ul.product-props li {
         visibility: visible;
         opacity: 1;
     }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+}
+
+th {
+    text-align: left;
+}
+
+table {
+    border-spacing: 5px;
+}
+
+    table#t01 {
+        background-color: lightgray;
+    }
+
+    table#t01 tr:nth-child(even) {
+        background-color: #eee;
+    }
+
+    table#t01 tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
+        table#t01 th {
+            color: white;
+            background-color: #525864;
+        }
+
+#scrollDiv {
+    max-height: 400px;
+    overflow-y: scroll;
+    max-width: 1150px;
+    overflow-x: scroll;
+}
