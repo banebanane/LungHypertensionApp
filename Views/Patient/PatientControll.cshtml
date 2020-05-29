@@ -6,23 +6,21 @@
 
     <h1 class="text-center">Kontrole za pacijenta: @Model.PatientId</h1>
     <div id="scrollDiv">
-        <table id="t01">
+        <table id="t01" tabindex="1">
             <tr>
-                <th>Izmena kontrole</th>
-                <th>Brisanje kontrole</th>
                 <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?IdControll','name','width=600,height=400')">Id kontrole</a></th>
                 <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?DateControll','name','width=600,height=400')">Datum kontrole</a></th>
                 <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?WeekHearth','name','width=600,height=400')">WeekHearth</a></th>
             </tr>
             @foreach (var controll in Model.PatientControlls)
             {
-        <tr>
-            <td>
+        <tr tabindex="0">
+            @*<td>
                 <button type="button" name="update" value="Update" id="updateControll" onclick="location.href='@Url.Action("UpdateControll", "Patient", new { idPatient = @Model.PatientId, idControll = controll.Id })' ">Izmeni kontrolu: @controll.Id</button>
             </td>
             <td>
                 <button type="button" name="delete" value="Delete" id="deleteControll">Obrisi kontrolu: @controll.Id</button>
-            </td>
+            </td>*@
             <td>@controll.Id</td>
             <td>@controll.ControllDate</td>
             <td>@controll.WeekHearth</td>

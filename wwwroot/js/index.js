@@ -15,6 +15,42 @@ tabs.forEach(tab => {
     })
 })
 
+$("#t01 tr").click(function () {
+    $(this).addClass("selected").siblings().removeClass("selected");
+})
+
+$("#t01 tr").keydown(function (e) {
+    e = e || window.event;
+    if (e.keyCode == '38') {
+        // up arrow       
+        if ($(this).prev != null) {
+            $(this).removeClass("selected");
+            $(this).prev().addClass("selected");
+            $(this).prev().focus();
+            if ($(this).is(":focus")) {
+                $(this).addClass("selected");
+            }
+        }
+        
+        // up arrow      
+        //var nextrow = tableControlls.previousElementSibling;
+        //if (nextrow != null) {
+        //    tableControlls.className = "";
+        //    nextrow = "selected";
+        // }
+    } else if (e.keyCode == '40') {
+        // down arrow
+        if ($(this).next != null) {
+            $(this).removeClass("selected");
+            $(this).next().addClass("selected");
+            $(this).next().focus();
+            if ($(this).is(":focus")) {
+                $(this).addClass("selected");
+            }
+        }
+    }
+})
+
 
 //var getInstitute = $("#btnGetInstitution");
 ////var formInstitute = document.getElementById("searchLabel");

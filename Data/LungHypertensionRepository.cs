@@ -247,6 +247,7 @@ namespace LungHypertensionApp.Data
         {
             try
             {
+                context.RemoveRange(context.PatientControlls.Where(p => p.Patient.Id == patient.Id));
                 context.Patients.Remove(patient);
             }
             catch (Exception)

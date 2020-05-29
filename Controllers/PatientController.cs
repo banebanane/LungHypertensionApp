@@ -13,6 +13,8 @@ using LungHypertensionApp.Data.Entities;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
+using LungHypertensionApp.Migrations;
+
 namespace LungHypertensionApp.Controllers
 {
     public class PatientController : Controller
@@ -107,11 +109,12 @@ namespace LungHypertensionApp.Controllers
                             bool result = repository.SaveAll();
                             if (result)
                             {
-                                ViewBag.UserMessage = $"Kontrola sa ID-jem: {patientControll.Id} je uspesno dodata u bazu.";
+                                ViewBag.UserMessage = $"Kontrola sa ID-jem: {patientControll.Id} je uspesno dodata u bazu.";                              
                                 model = new PatientControllViewModel()
                                 {
-                                    PatientId = model.PatientId
-                                };
+                                    PatientId = patientControll.Patient.Id,
+                                    PatientControlls = repository.GetAllControllsForPatient(patientControll.Patient.Id)
+                            };
                             }
                             else
                             {

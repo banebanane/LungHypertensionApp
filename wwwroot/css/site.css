@@ -178,6 +178,10 @@ table {
         background-color: #fff;
     }
 
+        table#t01 tr.selected {
+            background-color: #808080;
+        }
+
         table#t01 th {
             color: white;
             background-color: #525864;
