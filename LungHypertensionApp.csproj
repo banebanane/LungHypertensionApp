@@ -8,6 +8,10 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\lib\" />

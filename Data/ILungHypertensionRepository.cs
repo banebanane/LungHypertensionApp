@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LungHypertensionApp.Data.Entities;
 
 namespace LungHypertensionApp.Data
@@ -42,6 +43,8 @@ namespace LungHypertensionApp.Data
 
         void SavePatientControll(PatientControll patientControll);
         IEnumerable<PatientControll> GetAllControllsForPatient(int patientId);
+
+        Dictionary<DateTime, string> GetAllControlsParamForPatientIdAndParam(int patientId, string param);
 
         #endregion
     }
