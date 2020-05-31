@@ -16,20 +16,35 @@ tabs.forEach(tab => {
 })
 
 $("#t01 tr").click(function () {
+    var row = $(this).index();
+    var idControll = document.getElementById("t01").rows[row].cells[0].innerText;
+    var controllDate = document.getElementById("t01").rows[row].cells[1].innerText;
+    var weekHearth = document.getElementById("t01").rows[row].cells[2].innerText;
+    document.getElementById("idControll").value = idControll;
+    document.getElementById("controllDate").value = controllDate;
+    document.getElementById("weekHearth").value = weekHearth;
     $(this).addClass("selected").siblings().removeClass("selected");
+   
 })
 
 $("#t01 tr").keydown(function (e) {
     e = e || window.event;
-    if (e.keyCode == '38') {
+    var row = $(this).index();
+    if (e.keyCode == '38' && row > 1) {
         // up arrow       
         if ($(this).prev != null) {
             $(this).removeClass("selected");
             $(this).prev().addClass("selected");
             $(this).prev().focus();
+            var idControll = document.getElementById("t01").rows[row -1].cells[0].innerText;
+            var controllDate = document.getElementById("t01").rows[row -1].cells[1].innerText;
+            var weekHearth = document.getElementById("t01").rows[row-1].cells[2].innerText;
+            document.getElementById("idControll").value = idControll;
+            document.getElementById("controllDate").value = controllDate;
+            document.getElementById("weekHearth").value = weekHearth;
             if ($(this).is(":focus")) {
                 $(this).addClass("selected");
-            }
+           }
         }
         
         // up arrow      
@@ -47,6 +62,14 @@ $("#t01 tr").keydown(function (e) {
             if ($(this).is(":focus")) {
                 $(this).addClass("selected");
             }
+            var idControll = document.getElementById("t01").rows[row +1].cells[0].innerText;
+            var controllDate = document.getElementById("t01").rows[row +1].cells[1].innerText;
+            var weekHearth = document.getElementById("t01").rows[row +1].cells[2].innerText;
+            document.getElementById("idControll").value = idControll;
+            document.getElementById("controllDate").value = controllDate;
+            document.getElementById("weekHearth").value = weekHearth;
+            
+            
         }
     }
 })

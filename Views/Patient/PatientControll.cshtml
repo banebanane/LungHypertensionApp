@@ -8,9 +8,9 @@
     <div id="scrollDiv">
         <table id="t01" tabindex="1">
             <tr>
-                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?IdControll','name','width=600,height=400')">Id kontrole</a></th>
-                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?DateControll','name','width=600,height=400')">Datum kontrole</a></th>
-                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?WeekHearth','name','width=600,height=400')">WeekHearth</a></th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?Param=PatientId&PatientId=@Model.PatientId','name','width=600,height=400')">Id kontrole</a></th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?Param=DateControll','name','width=600,height=400')">Datum kontrole</a></th>
+                <th><a class="nav-link" asp-controller="Patient" asp-action="Params" name="column" target="popup" onclick="window.open('/Patient/Params?Param=WeekHearth','name','width=600,height=400')">WeekHearth</a></th>
             </tr>
             @foreach (var controll in Model.PatientControlls)
             {
@@ -37,17 +37,17 @@
             <div class="form-group">
                 <input asp-for="TimeStamp" hidden="hidden" class="form-control" value=@Model.TimeStamp />
                 <label asp-for="Id">ID kontrole</label>
-                <input asp-for="Id" class="form-control" readonly="readonly" value=@Model.Id />
+                <input asp-for="Id" class="form-control" readonly="readonly" id="idControll" value=@Model.Id />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ControllDate">Datum kontrole</label>
-                <input asp-for="ControllDate" type="datetime" class="form-control" value=@Model.ControllDate />
+                <input asp-for="ControllDate" type="datetime" class="form-control" id="controllDate" value=@Model.ControllDate />
                 <span asp-validation-for="ControllDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="WeekHearth">WeekHearth</label>
-                <input asp-for="WeekHearth" , type="text" class="form-control" value=@Model.WeekHearth />
+                <input asp-for="WeekHearth" , type="text" class="form-control" id="weekHearth" value=@Model.WeekHearth />
                 <span asp-validation-for="WeekHearth" class="text-danger"></span>
             </div>
 
