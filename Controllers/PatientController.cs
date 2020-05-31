@@ -46,28 +46,28 @@ namespace LungHypertensionApp.Controllers
         [HttpGet("/Patient/Params")]
         public IActionResult Params()
         {
-            //ParamsViewModel model = new ParamsViewModel();
-            //if (Request.Query.ContainsKey("Param"))
-            //{
-            //    string param = Request.Query["Param"];
-            //    switch (param)
-            //    {
-            //        case "PatientId":
-            //        {
-            //              string patientStringId = Request.Query["PatientId"];
-            //              int patientId;
-            //              if (Int32.TryParse(patientStringId, out patientId))
-            //              {
-            //                 repository.GetAllControllsForPatient(patientId);
-            //              }
-            //              break;
-            //        }
-            //    }
-            //}
+            ParamsViewModel model = new ParamsViewModel();
+            if (Request.Query.ContainsKey("Param"))
+            {
+                string param = Request.Query["Param"];
+                switch (param)
+                {
+                    case "PatientId":
+                        {
+                            string patientStringId = Request.Query["PatientId"];
+                            int patientId;
+                            if (Int32.TryParse(patientStringId, out patientId))
+                            {
+                                model.DateTimeToValue = repository.GetAllControlsParamForPatientIdAndParam(patientId, "PatientId");
+                            }
+                            break;
+                        }
+                }
+            }
             //Request.Query.ContainsKey("parameter1");
             //string value = Request.Query["PatientId"];
-          //   Request.QueryString.HasValue["parameter1"];
-            return View();
+            //Request.QueryString.HasValue["parameter1"];
+            return View(model);
         }
 
         [Authorize]

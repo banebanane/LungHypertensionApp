@@ -1,4 +1,4 @@
-﻿
+﻿@model ParamsViewModel
 @{
     Layout = null;
 }
@@ -7,9 +7,11 @@
 
 <html>
 <head>
+    @*<script>
+    var lst = @Html.Raw(Json.Serialize(ViewBag.List));
+    </script>*@
     <meta name="viewport" content="width=device-width" />
     <title>Params</title>
-    
 </head>
 <body>
     <h1>Test</h1>

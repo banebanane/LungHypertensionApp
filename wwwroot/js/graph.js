@@ -3,6 +3,8 @@ var xPadding = 30;
 var yPadding = 30;
 
 // Notice I changed The X values
+//var model = @Html.Raw(Json.Encode(Model.DateTimeToValue))
+
 var data = {
     values: [
         { X: 0, Y: 12 },

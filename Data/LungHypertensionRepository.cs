@@ -280,5 +280,18 @@ namespace LungHypertensionApp.Data
             }
             return new List<PatientControll>();
         }
+
+        public Dictionary<DateTime, string> GetAllControlsParamForPatientIdAndParam(int patientId, string param)
+        {
+            try // GetType().GetProperty(param).GetValue(i, null).ToString() pomocu refleksije bi mozda moglo da se izvrsi izvlacenje obicnih propertyja
+            {              
+                return context.PatientControlls.Include(p => p.Patient).Where(cont => cont.Patient.Id == patientId).ToDictionary(i => i.ControllDate, i => i.Patient.Id.ToString());
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not obtain controlls by patient with ID: {patientId} from database.");
+            }
+            return new Dictionary<DateTime, string>();
+        }
     }
 }
