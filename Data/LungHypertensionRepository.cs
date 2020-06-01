@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using LungHypertensionApp.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -20,15 +19,8 @@ namespace LungHypertensionApp.Data
             this.logger = logger;
         }
 
-        public void AddEntity(object model)
-        {
-            context.Add(model);
-        }
-
-
         public IEnumerable<Institution> GetAllInstitutions()
         {
-            //logger.LogInformation("Test da li loguje");
             try
             {
                 return context.Institutions.ToList();

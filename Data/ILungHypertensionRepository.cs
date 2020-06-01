@@ -8,7 +8,6 @@ namespace LungHypertensionApp.Data
     {
         #region General
         bool SaveAll();
-        void AddEntity(object model);
         #endregion
 
         #region Institutions
@@ -18,7 +17,6 @@ namespace LungHypertensionApp.Data
         void UpdateInstitution(Institution institution);
         void DeleteInstitution(Institution institution);
         #endregion
-
 
         #region Users
         StoreUser GetUserByEmail(string email);
@@ -35,11 +33,9 @@ namespace LungHypertensionApp.Data
         void UpdatePatient(Patient patient);
         bool UpdatePatientControlByPatientId(int id);
         void DeletePatient(Patient patient);
-
-
         #endregion
 
-        #region
+        #region Patients control
 
         void SavePatientControll(PatientControll patientControll);
         IEnumerable<PatientControll> GetAllControllsForPatient(int patientId);

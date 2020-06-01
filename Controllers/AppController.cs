@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LungHypertensionApp.Data;
 using LungHypertensionApp.Services;
 using LungHypertensionApp.ViewModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using LungHypertensionApp.Data.Entities;
 using Microsoft.Extensions.Logging;
 using System.Threading;
@@ -258,23 +255,19 @@ namespace LungHypertensionApp.Controllers
             }
             logger.LogInformation($"Zavrsava u post user thread {Thread.CurrentThread.ManagedThreadId}");
             return View(model);
-
         }
 
         [Authorize]
         [HttpGet("institution")]
         public IActionResult Institution()
         {
- 
              var model = new InstitutionViewModel()
                 {
                     Id = "",
                     InstitutionHolder = "",
                     InstitutionAddress = "",
                     SearchName = ""
-                    
                 };
-
 
             return View(model);
         }

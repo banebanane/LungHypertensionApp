@@ -14,13 +14,34 @@
 <div class="col-md-10 offset-md-1">
     <div class="card card-body bg-light">
         <form id="searchForm" method="post">
-            <div>
+            <div style="float:left">
                 <div>
                 <label asp-for="SearchIdPatient" id="searchLabel">ID pacijenta:  </label>
                 <input asp-for="SearchIdPatient" min="1" id="institutionName" value=@Model.SearchIdPatient />
                 <br>
                 </div>
                 <button type="submit" name="submit" value="searchForm" id="btnGetInstitution">Ucitaj pacijenta</button>
+            </div>
+            <div style="float:left" class="offset-md-1">
+                <div>
+                    <label>Id pacijenta: </label>
+                    @if (Model.Id == 0)
+                    {
+                        <label></label>
+                    }
+                    else
+                    {
+                        <label>@Model.Id</label>
+                    }
+                </div>
+                <div>
+                    <label>Ime pacijenta: </label>
+                    <label>@Model.FirstName</label>
+                </div>
+                <div>
+                    <label>Prezime pacijenta: </label>
+                    <label>@Model.LastName</label>
+                </div>
             </div>
             <div class="text-error">@ViewBag.CantFind</div>
         </form>
