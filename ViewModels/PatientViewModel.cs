@@ -1,8 +1,5 @@
 ﻿using LungHypertensionApp.Data.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LungHypertensionApp.ViewModels
 {
@@ -29,6 +26,7 @@ namespace LungHypertensionApp.ViewModels
         public IEnumerable<string> EnumWHO { get; set; }
         public IEnumerable<string> EnumEKG { get; set; }
         public IEnumerable<string> EnumRisk { get; set; }
+        public IEnumerable<Patient> Patiens { get; set; }
 
         public void ResetProperties()
         {

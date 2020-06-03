@@ -24,80 +24,63 @@ $("#t01 tr").click(function () {
     document.getElementById("controllDate").value = controllDate;
     document.getElementById("weekHearth").value = weekHearth;
     $(this).addClass("selected").siblings().removeClass("selected");
-   
 })
 
-$("#t01 tr").keydown(function (e) {
-    e = e || window.event;
+$("#t02 tr").click(function () {
     var row = $(this).index();
-    if (e.keyCode == '38' && row > 1) {
-        // up arrow       
-        if ($(this).prev != null) {
-            $(this).removeClass("selected");
-            $(this).prev().addClass("selected");
-            $(this).prev().focus();
-            var idControll = document.getElementById("t01").rows[row -1].cells[0].innerText;
-            var controllDate = document.getElementById("t01").rows[row -1].cells[1].innerText;
-            var weekHearth = document.getElementById("t01").rows[row-1].cells[2].innerText;
-            document.getElementById("idControll").value = idControll;
-            document.getElementById("controllDate").value = controllDate;
-            document.getElementById("weekHearth").value = weekHearth;
-            if ($(this).is(":focus")) {
-                $(this).addClass("selected");
-           }
-        }
-        
-        // up arrow      
-        //var nextrow = tableControlls.previousElementSibling;
-        //if (nextrow != null) {
-        //    tableControlls.className = "";
-        //    nextrow = "selected";
-        // }
-    } else if (e.keyCode == '40') {
-        // down arrow
-        if ($(this).next != null) {
-            $(this).removeClass("selected");
-            $(this).next().addClass("selected");
-            $(this).next().focus();
-            if ($(this).is(":focus")) {
-                $(this).addClass("selected");
-            }
-            var idControll = document.getElementById("t01").rows[row +1].cells[0].innerText;
-            var controllDate = document.getElementById("t01").rows[row +1].cells[1].innerText;
-            var weekHearth = document.getElementById("t01").rows[row +1].cells[2].innerText;
-            document.getElementById("idControll").value = idControll;
-            document.getElementById("controllDate").value = controllDate;
-            document.getElementById("weekHearth").value = weekHearth;
-            
-            
-        }
-    }
+    var patientId = document.getElementById("t02").rows[row].cells[0].innerText;
+    var firstName = document.getElementById("t02").rows[row].cells[1].innerText;
+    var lastName = document.getElementById("t02").rows[row].cells[2].innerText;
+    document.getElementById("id").value = patientId;
+    document.getElementById("firstName").value = firstName;
+    document.getElementById("lastName").value = lastName;
+    document.getElementById("id1").value = patientId;
+    document.getElementById("firstName1").value = firstName;
+    document.getElementById("lastName1").value = lastName;
+    $(this).addClass("selected").siblings().removeClass("selected");
 })
 
+$("#allInstitutionsForUser").change(function () {
+    var e = document.getElementById("allInstitutionsForUser");
+    var selectedInstitution = e.options[e.selectedIndex].text;
+    window.location.href = $'@Url.Action("ChangedModel", "Patient", new{ institutionName =  })'
+    window.location.href = "/Patient/ChangedModel/institutionName=" + selectedInstitution;
+})
 
-//var getInstitute = $("#btnGetInstitution");
-////var formInstitute = document.getElementById("searchLabel");
-//var updateInstitute = document.getElementById("updateInstitution");
-//var deleteInstitute = document.getElementById("deleteInstitution");
-
-////formInstitute.hidden = true;
-
-//getInstitute.on("click", function () {
-//    updateInstitute.hidden = true;
-//    deleteInstitute.hidden = true;
-//});
-
-//var theForm = $("#inputForm"); //document.getElementById("inputForm")
-
-////theForm.hidden = true;
-
-//var buyDugme = $("#buyDugme");
-
-//buyDugme.on("click", function () {
-//    console.log("Dugme je kliknuto");
-//});
-
-// var productInfo = $(".product-props li");
-//productInfo.on("click", function () {
-//    console.log("You clicked on" + $(this).text())
-//});
+//$("#t01 tr").keydown(function (e) {
+//    e = e || window.event;
+//    var row = $(this).index();
+//    if (e.keyCode == '38' && row > 1) {
+//        // up arrow       
+//        if ($(this).prev != null) {
+//            $(this).removeClass("selected");
+//            $(this).prev().addClass("selected");
+//            $(this).prev().focus();
+//            var idControll = document.getElementById("t01").rows[row -1].cells[0].innerText;
+//            var controllDate = document.getElementById("t01").rows[row -1].cells[1].innerText;
+//            var weekHearth = document.getElementById("t01").rows[row-1].cells[2].innerText;
+//            document.getElementById("idControll").value = idControll;
+//            document.getElementById("controllDate").value = controllDate;
+//            document.getElementById("weekHearth").value = weekHearth;
+//            if ($(this).is(":focus")) {
+//                $(this).addClass("selected");
+//           }
+//        }
+//    } else if (e.keyCode == '40') {
+//        // down arrow
+//        if ($(this).next != null) {
+//            $(this).removeClass("selected");
+//            $(this).next().addClass("selected");
+//            $(this).next().focus();
+//            if ($(this).is(":focus")) {
+//                $(this).addClass("selected");
+//            }
+//            var idControll = document.getElementById("t01").rows[row +1].cells[0].innerText;
+//            var controllDate = document.getElementById("t01").rows[row +1].cells[1].innerText;
+//            var weekHearth = document.getElementById("t01").rows[row +1].cells[2].innerText;
+//            document.getElementById("idControll").value = idControll;
+//            document.getElementById("controllDate").value = controllDate;
+//            document.getElementById("weekHearth").value = weekHearth;
+//        }
+//    }
+//})

@@ -170,7 +170,15 @@ table {
         background-color: lightgray;
     }
 
+    table#t02 {
+        background-color: lightgray;
+    }
+
     table#t01 tr:nth-child(even) {
+        background-color: #eee;
+    }
+
+    table#t02 tr:nth-child(even) {
         background-color: #eee;
     }
 
@@ -178,7 +186,15 @@ table {
         background-color: #fff;
     }
 
+    table#t02 tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
         table#t01 tr.selected {
+            background-color: #808080;
+        }
+
+        table#t02 tr.selected {
             background-color: #808080;
         }
 
@@ -187,9 +203,18 @@ table {
             background-color: #525864;
         }
 
+        table#t02 th {
+            color: white;
+            background-color: #525864;
+        }
+
 #scrollDiv {
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: scroll;
     max-width: 1150px;
     overflow-x: scroll;
+}
+
+#blockContainer {
+    display: inline-block;
 }

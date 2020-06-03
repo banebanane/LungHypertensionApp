@@ -37,6 +37,15 @@ namespace LungHypertensionApp.Controllers
             return View(model);
         }
 
+        [HttpGet("patient")]
+        public IActionResult ChangedModel(String institutionName = "")
+        {
+            var model = new PatientViewModel();
+            model.Patiens = repository.GetAllPatientsByInstitution(institutionName);
+
+            return View(model);
+        }
+
         [Authorize]
         [HttpGet("/Patient/Params")]
         public IActionResult Params()
@@ -92,7 +101,6 @@ namespace LungHypertensionApp.Controllers
             }
             return View(model);
         }
-
 
         [Authorize]
         [HttpPost("patientControll")]
@@ -370,6 +378,9 @@ namespace LungHypertensionApp.Controllers
             model.EnumEKG = new List<string>(4) { "sinusni ritam", "BDG", "atrijalna fibrilacija/flater", "pacemaker" };
             model.EnumRisk = new List<string>(3) { "nizak", "umeren", "visok" };
             model.AllInstitutions = repository.GetAllInstitutions().Select(i => i.Id);
+            var userName = User.Identity.Name;
+            var user = repository.GetUserByEmail(userName);
+            model.Patiens = repository.GetAllPatientsByInstitution(user.InstitutionName.Id);
 
             return model;
         }

@@ -14,17 +14,11 @@
             </tr>
             @foreach (var controll in Model.PatientControlls)
             {
-        <tr tabindex="0">
-            @*<td>
-                <button type="button" name="update" value="Update" id="updateControll" onclick="location.href='@Url.Action("UpdateControll", "Patient", new { idPatient = @Model.PatientId, idControll = controll.Id })' ">Izmeni kontrolu: @controll.Id</button>
-            </td>
-            <td>
-                <button type="button" name="delete" value="Delete" id="deleteControll">Obrisi kontrolu: @controll.Id</button>
-            </td>*@
-            <td>@controll.Id</td>
-            <td>@controll.ControllDate</td>
-            <td>@controll.WeekHearth</td>
-        </tr>
+            <tr tabindex="0">
+                <td>@controll.Id</td>
+                <td>@controll.ControllDate</td>
+                <td>@controll.WeekHearth</td>
+            </tr>
             }
         </table>
     </div>
