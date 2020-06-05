@@ -8,7 +8,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 
-
 <h1 class="text-center">Pacijenti</h1>
 
 <div class="col-md-10 offset-md-1 card card-body bg-light">
@@ -46,14 +45,30 @@
                         <label>Prezime pacijenta: </label>
                         <input asp-for="LastName" class="form-control" readonly="readonly" id="lastName1" value=@Model.LastName />
                     </div>
-                    <div class="form-group">
-                        <label asp-for="InstitutionName">Ime institucije:</label>
-                        <select asp-for="InstitutionName" id="allInstitutionsForUser" class="form-control">
-                            @foreach (var inst in @Model.AllInstitutions)
-                            {
-                                <option value=@inst>@inst</option>
-                            }
-                        </select>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                    {
+                        <div class="form-group">
+                            <label asp-for="InstitutionName">Ime institucije:</label>
+                            <script>
+                            function val() {
+                                var e = document.getElementById("allInstitutionsForUser");
+                                var selectedInstitution = e.options[e.selectedIndex].text;
+                                var url = "@Url.Action("Patient", "Patient", new { institutionName = -1 })";
+                                url = url.replace('-1', selectedInstitution);
+                                window.location.href = url;
+                            };
+                            </script>
+                            <select onchange="val()" asp-for="InstitutionName" id="allInstitutionsForUser" class="form-control">
+                                @foreach (var inst in @Model.AllInstitutions)
+                                {
+                                    <option value=@inst>@inst</option>
+                                }
+                                <option value="Sve institucije">Sve institucije</option>
+                            </select>
+                        </div>
+                    }
+                    <div>
+                        <label>Broj pacijenata: @Model.Patiens.Count()</label>
                     </div>
                 </div>
                 <div id="scrollDiv" class="offset-7">

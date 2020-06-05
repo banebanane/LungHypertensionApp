@@ -30,6 +30,7 @@ namespace LungHypertensionApp.Data
         Patient GetPatientById(int id);
         IEnumerable<PatientControll> GetPatientControlsByPatientId(int id);
         IEnumerable<Patient> GetAllPatientsByInstitution(string institutionName);
+        IEnumerable<Patient> GetAllPatients();
         void UpdatePatient(Patient patient);
         bool UpdatePatientControlByPatientId(int id);
         void DeletePatient(Patient patient);

@@ -181,7 +181,21 @@ namespace LungHypertensionApp.Data
             }
             catch (Exception)
             {
-                logger.LogError($"Could not get patients from {institutionName} from database.");
+                logger.LogError($"Could not get patients for {institutionName} from database.");
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Patient> GetAllPatients()
+        {
+            try
+            {
+                return context.Patients;
+            }
+            catch (Exception)
+            {
+                logger.LogError($"Could not get all patients from database.");
             }
 
             return null;

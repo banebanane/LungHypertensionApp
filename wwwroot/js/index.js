@@ -40,47 +40,40 @@ $("#t02 tr").click(function () {
     $(this).addClass("selected").siblings().removeClass("selected");
 })
 
-$("#allInstitutionsForUser").change(function () {
-    var e = document.getElementById("allInstitutionsForUser");
-    var selectedInstitution = e.options[e.selectedIndex].text;
-    window.location.href = $'@Url.Action("ChangedModel", "Patient", new{ institutionName =  })'
-    window.location.href = "/Patient/ChangedModel/institutionName=" + selectedInstitution;
+$("#t01 tr").keydown(function (e) {
+    e = e || window.event;
+    var row = $(this).index();
+    if (e.keyCode == '38' && row > 1) {
+        // up arrow       
+        if ($(this).prev != null) {
+            $(this).removeClass("selected");
+            $(this).prev().addClass("selected");
+            $(this).prev().focus();
+            var idControll = document.getElementById("t01").rows[row -1].cells[0].innerText;
+            var controllDate = document.getElementById("t01").rows[row -1].cells[1].innerText;
+            var weekHearth = document.getElementById("t01").rows[row-1].cells[2].innerText;
+            document.getElementById("idControll").value = idControll;
+            document.getElementById("controllDate").value = controllDate;
+            document.getElementById("weekHearth").value = weekHearth;
+            if ($(this).is(":focus")) {
+                $(this).addClass("selected");
+           }
+        }
+    } else if (e.keyCode == '40') {
+        // down arrow
+        if ($(this).next != null) {
+            $(this).removeClass("selected");
+            $(this).next().addClass("selected");
+            $(this).next().focus();
+            if ($(this).is(":focus")) {
+                $(this).addClass("selected");
+            }
+            var idControll = document.getElementById("t01").rows[row +1].cells[0].innerText;
+            var controllDate = document.getElementById("t01").rows[row +1].cells[1].innerText;
+            var weekHearth = document.getElementById("t01").rows[row +1].cells[2].innerText;
+            document.getElementById("idControll").value = idControll;
+            document.getElementById("controllDate").value = controllDate;
+            document.getElementById("weekHearth").value = weekHearth;
+        }
+    }
 })
-
-//$("#t01 tr").keydown(function (e) {
-//    e = e || window.event;
-//    var row = $(this).index();
-//    if (e.keyCode == '38' && row > 1) {
-//        // up arrow       
-//        if ($(this).prev != null) {
-//            $(this).removeClass("selected");
-//            $(this).prev().addClass("selected");
-//            $(this).prev().focus();
-//            var idControll = document.getElementById("t01").rows[row -1].cells[0].innerText;
-//            var controllDate = document.getElementById("t01").rows[row -1].cells[1].innerText;
-//            var weekHearth = document.getElementById("t01").rows[row-1].cells[2].innerText;
-//            document.getElementById("idControll").value = idControll;
-//            document.getElementById("controllDate").value = controllDate;
-//            document.getElementById("weekHearth").value = weekHearth;
-//            if ($(this).is(":focus")) {
-//                $(this).addClass("selected");
-//           }
-//        }
-//    } else if (e.keyCode == '40') {
-//        // down arrow
-//        if ($(this).next != null) {
-//            $(this).removeClass("selected");
-//            $(this).next().addClass("selected");
-//            $(this).next().focus();
-//            if ($(this).is(":focus")) {
-//                $(this).addClass("selected");
-//            }
-//            var idControll = document.getElementById("t01").rows[row +1].cells[0].innerText;
-//            var controllDate = document.getElementById("t01").rows[row +1].cells[1].innerText;
-//            var weekHearth = document.getElementById("t01").rows[row +1].cells[2].innerText;
-//            document.getElementById("idControll").value = idControll;
-//            document.getElementById("controllDate").value = controllDate;
-//            document.getElementById("weekHearth").value = weekHearth;
-//        }
-//    }
-//})

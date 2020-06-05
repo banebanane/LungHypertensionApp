@@ -28,20 +28,23 @@ namespace LungHypertensionApp.Controllers
         }
 
         [Authorize]
-        [HttpGet("patient")]
-        public IActionResult Patient()
+        [HttpGet("Patient")]
+        public IActionResult Patient(string institutionName = "")
         {
             var model = new PatientViewModel();
             model = PopulateEnums(model);
 
-            return View(model);
-        }
-
-        [HttpGet("patient")]
-        public IActionResult ChangedModel(String institutionName = "")
-        {
-            var model = new PatientViewModel();
-            model.Patiens = repository.GetAllPatientsByInstitution(institutionName);
+            if (institutionName != "")
+            {
+                if (institutionName == "Sve institucije")
+                {
+                    model.Patiens = repository.GetAllPatients();
+                }
+                else
+                {
+                    model.Patiens = repository.GetAllPatientsByInstitution(institutionName); // srediti malo bolje
+                }
+            }
 
             return View(model);
         }
